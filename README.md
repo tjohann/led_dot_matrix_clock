@@ -44,7 +44,7 @@ Create sd-card image
 See https://github.com/tjohann/arm926_sdk/docs/howto_sdcard.txt
 
 
-usage
+Usage
 -------------------
 
 t.b.d.
