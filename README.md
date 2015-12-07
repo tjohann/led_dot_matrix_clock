@@ -41,7 +41,7 @@ See https://github.com/tjohann/arm926_sdk for images and hardware details!
 Create sd-card image
 -------------------
 
-See See https://github.com/tjohann/arm926_sdk/docs/howto_sdcard.txt
+See https://github.com/tjohann/arm926_sdk/docs/howto_sdcard.txt
 
 
 usage
