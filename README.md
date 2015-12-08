@@ -1,13 +1,20 @@
 LED-Dot-matrix based clock
 ===============
 
-This is my LED-Dot-matrix based clock.  
+This is my LED-Dot-matrix based clock. The purpose of this repo is to collect all software components into one place. The project has a lot different programs and daemons. Therefore i would need a lot of repos but to make it cleaner it's a in this repo below src. 
+
+     tempd -> a temperature daemon
+     matrixd -> a daemon to controll the led-dot-matrix
+     ...
+
 
 
 Preparation (toolchain)
 -------------------
 
-Clone the toolchain repo into your home directory:
+To build the software on your linux host you need a crosstool chain. I already provide one for armel/arm926 devices. To get them you have to clone the sdk repo into your home directory and follow the instructions.
+
+Clone toolchain repo:
 
         git clone https://github.com/tjohann/arm926_sdk.git
 
