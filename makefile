@@ -6,7 +6,7 @@ ifeq "${ARMEL_HOME}" ""
     $(error error: please source armel_env first!)
 endif
 
-MODULES = Documentation src
+MODULES = Documentation src include lib etc
 
 all:: 
 	@echo "+-------------------------------------------+"

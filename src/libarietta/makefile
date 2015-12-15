@@ -18,8 +18,8 @@ VER_BUGFIX:=$(word 3, $(subst ., ,$(VERSION)))
 #
 # CLFAGS and LDLIBS
 #
-CFLAGS = -Wall -O2 -fPIC -g 
-LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -lpthread -lc
+CFLAGS = -Wall -O2 -fPIC -g `pkg-config --cflags --libs libconfig`
+LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -lpthread -lc 
 
 
 all: $(TARGET).so.$(VERSION) $(TARGET).a

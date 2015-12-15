@@ -21,17 +21,6 @@
 #include "libarietta.h"
 
 
-/*
- * print lib version 
- */
-void print_lib_version(void)
-{
-	/*fprintf(stdout, "libbaalue@version.%d.%d.%d\n", 
-		libbaalue_VERSION_MAJOR,
-		libbaalue_VERSION_MINOR,
-		libbaalue_VERSION_PATCH); */
-}
-
 
 /*
  * common error function which is called in all exported error handling 

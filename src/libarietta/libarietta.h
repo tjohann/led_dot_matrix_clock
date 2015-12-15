@@ -72,14 +72,12 @@
 /*
  * some common defines
  */
+//#define print_lib_version(cmd) { fprintf(stdout, "libarietta@version.%s\n", #VERSION); }
 #define MAXLINE 254
 
 /*
  * some info functions
  */
-
-// print lib version -> see CMakeFiles.txt
-void print_lib_version(void);
 
 
 /*
