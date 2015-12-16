@@ -21,6 +21,7 @@
 #ifndef _LIB_ARIETTA_H
 #define _LIB_ARIETTA_H
 
+
 // more or less common inc
 #include <stdio.h>
 #include <sys/types.h>
@@ -44,7 +45,7 @@
 #include <sysexits.h>
 #include <ctype.h>
 #include <pthread.h>
-//#include <bsd/stdlib.h>
+#include <bsd/stdlib.h>
 
 // getopt and locale realted inc
 #include <getopt.h>
@@ -68,17 +69,18 @@
 #include <netpacket/packet.h>
 
 
-
 /*
  * some common defines
  */
-//#define print_lib_version(cmd) { fprintf(stdout, "libarietta@version.%s\n", #VERSION); }
 #define MAXLINE 254
 
 /*
  * some info functions
  */
 
+// pring version info
+void
+print_lib_version(void);
 
 /*
  * common error handling functions

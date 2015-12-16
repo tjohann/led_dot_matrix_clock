@@ -20,7 +20,36 @@
 
 #include "libarietta.h"
 
+/*
+ * check for version info
+ */
+#if !defined VER_MAYOR
+#error VER_MAYOR not defined
+#define VER_MAYOR 0
+#endif
 
+#if !defined VER_MINOR
+#error VER_MINOR not defined
+#define VER_MINOR 0
+#endif
+
+#if !defined VER_BUGFIX
+#error VER_BUGFIX not defined
+#define VER_BUGFIX 0
+#endif
+
+
+/*
+ * show version info based on file ./VERSION
+ */
+void
+print_lib_version()
+{
+	fprintf(stdout, "libarietta@version.%d.%d.%d\n",
+		VER_MAYOR,
+		VER_MINOR,
+		VER_BUGFIX);
+}
 
 /*
  * common error function which is called in all exported error handling 
