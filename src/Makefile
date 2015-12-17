@@ -8,19 +8,25 @@
 # the build order is important
 #
 #MODULES = $(shell ls -d */ | cut -f1 -d'/')
-MODULES = libarietta
+MODULES = libarietta tempd
 
 
-.PHONY: all
 all:
 	@echo "+-------------------------------------------------+"
 	@echo "|              build all in ./src                 |"
 	@echo "+-------------------------------------------------+"
 	for dir in $(MODULES); do (cd $$dir && $(MAKE) $@); done
 
-.PHONY: clean
 clean:
-	rm -f *~
+	rm -f *~ .*~
 	for dir in $(MODULES); do (cd $$dir && $(MAKE) $@); done
 
+
+install:
+	for dir in $(MODULES); do (cd $$dir && $(MAKE) $@); done
+
+
 distclean: clean
+
+.PHONY:
+	clean all install

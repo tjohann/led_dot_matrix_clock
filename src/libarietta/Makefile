@@ -25,7 +25,7 @@ VERSION_DEFINES = -DVER_MAYOR=$(VER_MAYOR) -DVER_MINOR=$(VER_MINOR) -DVER_BUGFIX
 # CLFAGS and LDLIBS
 #
 CFLAGS = -Wall -O2 -fPIC -g `pkg-config --cflags --libs libconfig`
-LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -lpthread -lc 
+LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -lpthread  
 
 
 all: $(TARGET).so.$(VERSION) $(TARGET).a
@@ -49,5 +49,6 @@ install: $(TARGET).so.$(VERSION) $(TARGET).a
 	cp -d $(TARGET).so.$(VERSION) ../../lib
 	cp -d $(TARGET).so.$(VER_MAYOR) ../../lib
 	cp -d $(TARGET).so.$(VER_MAYOR).$(VER_MINOR) ../../lib
+	cp -d $(HEADER) ../../include
 
 .PHONY: clean

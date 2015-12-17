@@ -14,11 +14,10 @@
 *.la
 *.lo
 
-# Shared objects (inc. Windows DLLs)
+# Shared objects 
 *.dll
 *.so
 *.so.*
-*.dylib
 
 # Executables
 *.exe
@@ -28,5 +27,4 @@
 *.x86_64
 *.hex
 
-# Debug files
-*.dSYM/
+

@@ -6,7 +6,7 @@ all::
 	@echo Cheers
 
 clean::
-	rm -f *~
+	rm -f *~ .*~
 
 distclean: clean
 
