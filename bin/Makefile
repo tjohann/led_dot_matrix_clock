@@ -7,6 +7,7 @@ all::
 
 clean::
 	rm -f *~ .*~
+	rm -f tempd
 
 distclean: clean
 
