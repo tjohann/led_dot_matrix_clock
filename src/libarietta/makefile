@@ -44,4 +44,10 @@ clean:
 	rm -f ${TARGET}.so.*
 	rm -f man/*~ 
 
+install: $(TARGET).so.$(VERSION) $(TARGET).a
+	cp -d $(TARGET).a ../../lib
+	cp -d $(TARGET).so.$(VERSION) ../../lib
+	cp -d $(TARGET).so.$(VER_MAYOR) ../../lib
+	cp -d $(TARGET).so.$(VER_MAYOR).$(VER_MINOR) ../../lib
+
 .PHONY: clean
