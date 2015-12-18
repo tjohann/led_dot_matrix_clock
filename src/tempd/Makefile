@@ -24,7 +24,8 @@ $(TARGET): $(SRC) $(HEADER)
 clean:
 	rm -f *~ .*~ *.o *.i *.s *.so *.so.* *.a
 	rm -f ${TARGET}
-	rm -f man/*~ 
+	rm -f man/*~
+	rm -f etc/*~
 
 install: $(TARGET)
 	cp -d $(TARGET) ../../bin
