@@ -30,6 +30,11 @@
 #define CONF_FILE "tempd.conf"
 config_t cfg;
 
+struct conf_obj {
+	char *name;
+	const char *i2c_adapter;
+	const char *message_file;
+};
 
 
 #endif

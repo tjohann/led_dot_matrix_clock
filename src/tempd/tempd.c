@@ -62,11 +62,34 @@ void signal_handler(int signo)
 }
 
 
+static
+void read_daemon_conf(struct conf_obj *conf)
+{
+	const char *str;
+	
+	if (config_lookup_string(&cfg, "common.message_file", &str)) {
+                fprintf(stdout, "common.message_file for %s\n", str);
+		conf->message_file = str;
+		
+        } else
+                fprintf(stderr, "No 'common.message_file' setting in config file!\n");
+
+        if (config_lookup_string(&cfg, "tempd.i2c_adapter", &str)) {
+                fprintf(stdout, "tempd.i2c_adapter for %s\n", str);
+		conf->i2c_adapter = str;
+        } else
+                fprintf(stderr, "No 'tempd.i2c_adapter' setting in config file!\n");
+
+
+	printf("message_file %p\n", conf->message_file);
+	printf("i2c_adapter %p\n", conf->i2c_adapter);
+}
+
+
 int main(int argc, char *argv[])
 {
-        config_setting_t *settings, *root;
         const char *str;
-	const char *conf_dir;
+	const char *conf_dir = NULL;
 	int c;
 	
 	if (argc == 1) 
@@ -101,11 +124,11 @@ int main(int argc, char *argv[])
 	int cur_dir = -1;
 	cur_dir = open(".", O_RDONLY);
 	if (cur_dir == -1)
-		error_msg("can't open actual dir -> %s",
+		error_exit("can't open actual dir -> %s",
 			  strerror(errno));
 
 	if (chdir(conf_dir) == -1)
-		error_msg("can't change to dir %s -> %s",
+		error_exit("can't change to dir %s -> %s",
 			  conf_dir,
 			  strerror(errno));
 	
@@ -124,24 +147,16 @@ int main(int argc, char *argv[])
         if (config_lookup_string(&cfg, "name", &str))
                 fprintf(stdout, "config-file for %s\n", str);
         else
-                fprintf(stderr, "No 'name' setting in config file!\n");
+                error_exit("No 'name' setting in config file!");
 
         putchar('\n');
 
 	/*
 	 * read daemon specific content
 	 */
-	
-        if (config_lookup_string(&cfg, "common.message_file", &str))
-                fprintf(stdout, "common.message_file for %s\n", str);
-        else
-                fprintf(stderr, "No 'common.message_file' setting in config file!\n");
-
-        if (config_lookup_string(&cfg, "tempd.i2c_adapter", &str))
-                fprintf(stdout, "tempd.i2c_adapter for %s\n", str);
-        else
-                fprintf(stderr, "No 'tempd.i2c_adapter' setting in config file!\n");
-
+	struct conf_obj daemon_conf;
+	read_daemon_conf(&daemon_conf);
+       
 
 	
 	/*
