@@ -87,7 +87,7 @@ __attribute__((noreturn)) error_exit(const char *fmt, ...)
 	error_common(0, 0, fmt, va);
 	va_end(va);
 	
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 /*

@@ -22,6 +22,15 @@
 #define _LIB_TEMPD_H
 
 #include <libarietta.h>
+#include <libconfig.h>
+
+/* 
+ * config related 
+ */
+#define config_file "tempd.conf"
+config_t cfg;
+
+
 
 #endif
 

@@ -24,7 +24,7 @@ VERSION_DEFINES = -DVER_MAYOR=$(VER_MAYOR) -DVER_MINOR=$(VER_MINOR) -DVER_BUGFIX
 #
 # CLFAGS and LDLIBS
 #
-CFLAGS = -Wall -O2 -fPIC -g `pkg-config --cflags --libs libconfig`
+CFLAGS = -Wall -O2 -fPIC -g 
 LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -lpthread  
 
 

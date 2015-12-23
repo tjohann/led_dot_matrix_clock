@@ -21,10 +21,128 @@
 #include "tempd.h"
 
 
-int main(void)
+static void
+__attribute__((noreturn)) usage(void)
 {
+	fprintf(stdout, "\nusage: ./tempd -d /etc/led_dot_matrix_clock/tempd.conf\n");
+	fprintf(stdout, "               -d -> config directory                 \n");
+	exit(EINVAL);
+}
 
-	printf("\nHello of tempd\n");
 
-	exit(EXIT_SUCCESS);
+static void
+cleanup(void)
+{
+	config_destroy(&cfg);
+	
+	fprintf(stdout,"in cleanup -> Cheers %s\n", getenv("USER"));
+}
+
+
+static
+void signal_handler(int signo)
+{
+	/*
+	 * fprintf is not reentrant!
+	 */
+	switch (signo)
+	{
+	case SIGINT:
+		fprintf(stdout,"caught SIGINT\n");
+		exit(EXIT_SUCCESS);
+		break;
+	case SIGTERM:
+		fprintf(stdout,"caught SIGTERM\n");
+		exit(EXIT_SUCCESS);
+		break;
+	default:
+		fprintf(stderr, "no valid signal handler for %d\n", signo);
+	}
+	
+}
+
+
+int main(int argc, char *argv[])
+{
+        config_setting_t *settings, *root;
+        const char *str;
+	const char *conf_dir;
+	int c;
+	
+	if (argc == 1) 
+		usage();
+
+	while ((c = getopt(argc, argv, "hd:")) != -1) {
+		switch (c) {
+		case 'd':
+			conf_dir = optarg;
+			break;
+		case 'h':		
+			usage();
+			break;
+		default:
+			fprintf(stderr,"ERROR: no valid argument");
+			usage();
+		}
+	}
+	
+	if (atexit(cleanup) != 0)
+		exit(EXIT_FAILURE);
+
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		exit(EXIT_FAILURE);
+
+	if (signal(SIGTERM, signal_handler) == SIG_ERR)
+		exit(EXIT_FAILURE);
+
+	/*
+	 * read config
+	 */
+	int cur_dir = -1;
+	cur_dir = open(".", O_RDONLY);
+	if (cur_dir == -1)
+		error_msg("cant open actual dir");
+
+	if (chdir(conf_dir) == -1)
+		error_msg("cant change to dir %s", conf_dir);
+	
+        config_init(&cfg);	
+        if (config_read_file(&cfg, config_file) != CONFIG_TRUE)
+        {
+                fprintf(stderr, "%s:%d - %s\n",
+                        config_error_file(&cfg),
+                        config_error_line(&cfg),
+                        config_error_text(&cfg));
+                
+                config_destroy(&cfg);
+                exit(EXIT_FAILURE);
+        }
+
+        if (config_lookup_string(&cfg, "name", &str))
+                fprintf(stdout, "config-file for %s\n", str);
+        else
+                fprintf(stderr, "No 'name' setting in config file!\n");
+
+        putchar('\n');
+
+        if (config_lookup_string(&cfg, "common.message_file", &str))
+                fprintf(stdout, "common.message_file for %s\n", str);
+        else
+                fprintf(stderr, "No 'common.message_file' setting in config file!\n");
+
+        if (config_lookup_string(&cfg, "tempd.i2c_adapter", &str))
+                fprintf(stdout, "tempd.i2c_adapter for %s\n", str);
+        else
+                fprintf(stderr, "No 'tempd.i2c_adapter' setting in config file!\n");
+
+	/*
+	 * finished config handling
+	 */
+	if (fchdir(cur_dir) == -1)
+		error_msg("cant set old working dir");
+	close(cur_dir);
+	
+        config_destroy(&cfg);
+        
+        exit(EXIT_SUCCESS);
 }

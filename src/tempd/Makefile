@@ -12,7 +12,7 @@ HEADER := tempd.h
 #
 # CLFAGS and LDLIBS
 #
-CFLAGS := -Wall -O2 -g -I../../include
+CFLAGS := -Wall -O2 -g -I../../include `pkg-config --cflags --libs libconfig`
 LDLIBS := -L../../lib -larietta -lpthread -lrt
 
 
@@ -31,6 +31,6 @@ install: $(TARGET)
 	cp -d $(TARGET) ../../bin
 
 run: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./tempd
+	LD_LIBRARY_PATH=../../lib ./tempd -d ~/led_dot_matrix_clock/src/tempd/etc/
 
 .PHONY: clean
