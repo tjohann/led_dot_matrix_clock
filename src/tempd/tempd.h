@@ -27,7 +27,7 @@
 /* 
  * config related 
  */
-#define config_file "tempd.conf"
+#define CONF_FILE "tempd.conf"
 config_t cfg;
 
 

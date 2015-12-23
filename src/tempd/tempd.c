@@ -101,13 +101,16 @@ int main(int argc, char *argv[])
 	int cur_dir = -1;
 	cur_dir = open(".", O_RDONLY);
 	if (cur_dir == -1)
-		error_msg("cant open actual dir");
+		error_msg("can't open actual dir -> %s",
+			  strerror(errno));
 
 	if (chdir(conf_dir) == -1)
-		error_msg("cant change to dir %s", conf_dir);
+		error_msg("can't change to dir %s -> %s",
+			  conf_dir,
+			  strerror(errno));
 	
         config_init(&cfg);	
-        if (config_read_file(&cfg, config_file) != CONFIG_TRUE)
+        if (config_read_file(&cfg, CONF_FILE) != CONFIG_TRUE)
         {
                 fprintf(stderr, "%s:%d - %s\n",
                         config_error_file(&cfg),
@@ -125,6 +128,10 @@ int main(int argc, char *argv[])
 
         putchar('\n');
 
+	/*
+	 * read daemon specific content
+	 */
+	
         if (config_lookup_string(&cfg, "common.message_file", &str))
                 fprintf(stdout, "common.message_file for %s\n", str);
         else
@@ -135,6 +142,8 @@ int main(int argc, char *argv[])
         else
                 fprintf(stderr, "No 'tempd.i2c_adapter' setting in config file!\n");
 
+
+	
 	/*
 	 * finished config handling
 	 */

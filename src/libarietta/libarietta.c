@@ -25,16 +25,19 @@
  */
 #if !defined VER_MAYOR
 #error VER_MAYOR not defined
+// only to satisfy the build
 #define VER_MAYOR 0
 #endif
 
 #if !defined VER_MINOR
 #error VER_MINOR not defined
+// only to satisfy the build
 #define VER_MINOR 0
 #endif
 
 #if !defined VER_BUGFIX
 #error VER_BUGFIX not defined
+// only to satisfy the build
 #define VER_BUGFIX 0
 #endif
 
