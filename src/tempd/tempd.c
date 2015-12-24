@@ -22,11 +22,18 @@
 
 
 static void
-__attribute__((noreturn)) usage(void)
+usage(void)
 {
-	fprintf(stdout, "\nusage: ./tempd -d /etc/led_dot_matrix_clock/tempd.conf\n");
-	fprintf(stdout, "               -d -> config directory                 \n");
-	exit(EINVAL);
+	fprintf(stdout, "\nusage: ./tempd -d /etc/led_dot_matrix_clock/    \n");
+	fprintf(stdout, "               -d -> config directory             \n");
+}
+
+
+static void
+__attribute__((noreturn)) usage_exit(void)
+{
+	usage();
+	exit(EXIT_SUCCESS);
 }
 
 
@@ -66,23 +73,82 @@ static
 void read_daemon_conf(struct conf_obj *conf)
 {
 	const char *str;
-	
+
+	/* 
+	 *common parts 
+	 */
 	if (config_lookup_string(&cfg, "common.message_file", &str)) {
-                fprintf(stdout, "common.message_file for %s\n", str);
+		/* check for entry in common.conf */
 		conf->message_file = str;
+        } else {
+                error_msg("No 'common.message_file' setting in config file!");
 		
-        } else
-                fprintf(stderr, "No 'common.message_file' setting in config file!\n");
+		/* check for entry in tempd.conf */
+		if (config_lookup_string(&cfg, "tempd.message_file", &str)) 
+			conf->message_file = str;
+		else
+			error_exit("No 'tempd.message_file' setting in config file!");
+	}
 
-        if (config_lookup_string(&cfg, "tempd.i2c_adapter", &str)) {
-                fprintf(stdout, "tempd.i2c_adapter for %s\n", str);
+	if (config_lookup_string(&cfg, "common.kdo_msg_queue", &str)) {
+		/* check for entry in common.conf */
+		conf->kdo_msg_queue = str;
+        } else {
+                error_msg("No 'common.kdo_msg_queue' setting in config file!");
+		
+		/* check for entry in tempd.conf */
+		if (config_lookup_string(&cfg, "tempd.kdo_msg_queue", &str)) 
+			conf->kdo_msg_queue = str;
+		else
+			error_exit("No 'tempd.kdo_msg_queue' setting in config file!");
+	}
+
+	if (config_lookup_string(&cfg, "common.common_output_dir", &str)) {
+		/* check for entry in common.conf */
+		conf->common_output_dir = str;
+        } else {
+                error_msg("No 'common.common_outpur_dir' setting in config file!");
+		
+		/* check for entry in tempd.conf */
+		if (config_lookup_string(&cfg, "tempd.common_output_dir", &str)) 
+			conf->common_output_dir = str;
+		else
+			error_exit("No 'tempd.common_output_dir' setting in config file!");
+	}
+
+	/* 
+	 * tempd specific parts
+	 */
+        if (config_lookup_string(&cfg, "tempd.i2c_adapter", &str)) 
 		conf->i2c_adapter = str;
-        } else
-                fprintf(stderr, "No 'tempd.i2c_adapter' setting in config file!\n");
+        else 
+                error_exit("No 'tempd.i2c_adapter' setting in config file!");
 
 
-	printf("message_file %p\n", conf->message_file);
+
+	printf("message_file @addr: %p with content %s\n",
+	       conf->message_file, str);
+	
+	printf("kdo_msg_queue %p with content %s\n",
+	       conf->kdo_msg_queue, conf->kdo_msg_queue);
+	
+	printf("common_output_dir %p\n", conf->common_output_dir);
 	printf("i2c_adapter %p\n", conf->i2c_adapter);
+	
+}
+
+void
+print_config_content(struct conf_obj *conf)
+{
+	fprintf(stdout, "************************************************* \n");
+	
+	printf("message_file @addr: %p with content %d\n",
+	       conf->message_file, conf->message_file);
+	
+	printf("kdo_msg_queue %p\n", conf->kdo_msg_queue);
+	printf("common_output_dir %p\n", conf->common_output_dir);
+	printf("i2c_adapter %p\n", conf->i2c_adapter);
+
 }
 
 
@@ -101,13 +167,16 @@ int main(int argc, char *argv[])
 			conf_dir = optarg;
 			break;
 		case 'h':		
-			usage();
+			usage_exit();
 			break;
 		default:
 			fprintf(stderr,"ERROR: no valid argument");
-			usage();
+			usage_exit();
 		}
 	}
+
+	if (optind >= argc)
+		printf("GEDOENS\n");
 	
 	if (atexit(cleanup) != 0)
 		exit(EXIT_FAILURE);
@@ -157,6 +226,7 @@ int main(int argc, char *argv[])
 	struct conf_obj daemon_conf;
 	read_daemon_conf(&daemon_conf);
        
+	print_config_content(&daemon_conf);
 
 	
 	/*

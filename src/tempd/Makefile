@@ -33,4 +33,7 @@ install: $(TARGET)
 run: $(TARGET)
 	LD_LIBRARY_PATH=../../lib ./tempd -d ~/led_dot_matrix_clock/src/tempd/etc/
 
+help: $(TARGET)
+	LD_LIBRARY_PATH=../../lib ./tempd -h
+
 .PHONY: clean

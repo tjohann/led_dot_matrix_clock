@@ -32,8 +32,16 @@ config_t cfg;
 
 struct conf_obj {
 	char *name;
-	const char *i2c_adapter;
+        /* 
+	 *common parts 
+	 */
 	const char *message_file;
+	const char *kdo_msg_queue;
+	const char *common_output_dir;
+	/* 
+	 * tempd specific parts
+	 */
+	const char *i2c_adapter;
 };
 
 
