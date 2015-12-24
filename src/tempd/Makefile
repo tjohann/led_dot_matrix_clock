@@ -12,7 +12,7 @@ HEADER := tempd.h
 #
 # CLFAGS and LDLIBS
 #
-CFLAGS := -Wall -O2 -g -I../../include `pkg-config --cflags --libs libconfig`
+CFLAGS := -Wall -O2 -g -DDEBUG -I../../include `pkg-config --cflags --libs libconfig`
 LDLIBS := -L../../lib -larietta -lpthread -lrt
 
 
@@ -35,5 +35,8 @@ run: $(TARGET)
 
 help: $(TARGET)
 	LD_LIBRARY_PATH=../../lib ./tempd -h
+
+usage: $(TARGET)
+	LD_LIBRARY_PATH=../../lib ./tempd
 
 .PHONY: clean

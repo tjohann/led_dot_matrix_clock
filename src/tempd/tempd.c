@@ -42,7 +42,7 @@ cleanup(void)
 {
 	config_destroy(&cfg);
 	
-	fprintf(stdout,"in cleanup -> Cheers %s\n", getenv("USER"));
+	fprintf(stdout,"in cleanup -> cheers %s\n\n", getenv("USER"));
 }
 
 
@@ -63,7 +63,7 @@ void signal_handler(int signo)
 		exit(EXIT_SUCCESS);
 		break;
 	default:
-		fprintf(stderr, "no valid signal handler for %d\n", signo);
+		error_msg("no valid signal handler for %d\n", signo);
 	}
 	
 }
@@ -123,32 +123,33 @@ void read_daemon_conf(struct conf_obj *conf)
 		conf->i2c_adapter = str;
         else 
                 error_exit("No 'tempd.i2c_adapter' setting in config file!");
-
-
-
-	printf("message_file @addr: %p with content %s\n",
-	       conf->message_file, str);
-	
-	printf("kdo_msg_queue %p with content %s\n",
-	       conf->kdo_msg_queue, conf->kdo_msg_queue);
-	
-	printf("common_output_dir %p\n", conf->common_output_dir);
-	printf("i2c_adapter %p\n", conf->i2c_adapter);
-	
 }
+
 
 void
 print_config_content(struct conf_obj *conf)
 {
-	fprintf(stdout, "************************************************* \n");
-	
-	printf("message_file @addr: %p with content %d\n",
+	fprintf(stdout, "\n************************************************* \n");
+
+	/* 
+	 *common parts 
+	 */
+	printf("message_file@addr: %p with content %s\n",
 	       conf->message_file, conf->message_file);
 	
-	printf("kdo_msg_queue %p\n", conf->kdo_msg_queue);
-	printf("common_output_dir %p\n", conf->common_output_dir);
-	printf("i2c_adapter %p\n", conf->i2c_adapter);
+	printf("kdo_msg_queue@addr: %p with content %s\n",
+	       conf->kdo_msg_queue, conf->kdo_msg_queue);
+	
+	printf("common_output_dir@addr: %p with content %s\n",
+	       conf->common_output_dir, conf->common_output_dir);
 
+	/* 
+	 * tempd specific parts
+	 */
+	printf("i2c_adapter@addr: %p with content %s\n",
+	       conf->i2c_adapter, conf->i2c_adapter);
+
+	fprintf(stdout, "************************************************* \n\n");
 }
 
 
@@ -159,7 +160,7 @@ int main(int argc, char *argv[])
 	int c;
 	
 	if (argc == 1) 
-		usage();
+		usage_exit();
 
 	while ((c = getopt(argc, argv, "hd:")) != -1) {
 		switch (c) {
@@ -175,9 +176,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (optind >= argc)
-		printf("GEDOENS\n");
-	
 	if (atexit(cleanup) != 0)
 		exit(EXIT_FAILURE);
 
@@ -225,9 +223,10 @@ int main(int argc, char *argv[])
 	 */
 	struct conf_obj daemon_conf;
 	read_daemon_conf(&daemon_conf);
-       
-	print_config_content(&daemon_conf);
 
+#if defined DEBUG      
+	print_config_content(&daemon_conf);
+#endif
 	
 	/*
 	 * finished config handling
