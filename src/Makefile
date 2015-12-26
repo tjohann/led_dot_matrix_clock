@@ -8,7 +8,7 @@
 # the build order is important
 #
 #MODULES = $(shell ls -d */ | cut -f1 -d'/')
-MODULES = libarietta tempd
+MODULES = libarietta clock_brockerd tempd 
 
 
 all:

@@ -18,8 +18,8 @@
 
 */
 
-#ifndef _TEMPD_H
-#define _TEMPD_H
+#ifndef _CLOCK_BROKER_H
+#define _CLOCK_BROKER_H
 
 #include <libarietta.h>
 #include <libconfig.h>
@@ -27,21 +27,17 @@
 /* 
  * config related 
  */
-#define CONF_FILE "tempd.conf"
+#define CONF_FILE "common.conf"
 config_t cfg;
 
 struct conf_obj {
 	char *name;
         /* 
-	 * common parts 
+	 * common parts -> clock_broker 
 	 */
 	const char *message_file;
 	const char *kdo_msg_queue;
 	const char *common_output_dir;
-	/* 
-	 * tempd specific parts
-	 */
-	const char *i2c_adapter;
 };
 
 

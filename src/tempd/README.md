@@ -1,4 +1,4 @@
-LIBARIETTA
+TEMPD
 =========
 
 A simple daemon to provide a temperature info (see also https://tjohann.wordpress.com/).

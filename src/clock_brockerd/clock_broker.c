@@ -18,16 +18,16 @@
 
 */
 
-#include "tempd.h"
+#include "clock_broker.h"
 
 
 static void
 usage(void)
 {
 	fprintf(stdout,
-		"\nusage: ./tempd -d /etc/led_dot_matrix_clock/ \n");
+		"\nusage: ./clock_broker -d /etc/led_dot_matrix_clock/ \n");
 	fprintf(stdout,
-		"               -d -> config directory          \n");
+		"                      -d -> config directory          \n");
 }
 
 
@@ -77,54 +77,24 @@ void read_daemon_conf(struct conf_obj *conf)
 	const char *str;
 
 	/* 
-	 * common parts 
+	 * common parts -> clock_broker
 	 */
-	if (config_lookup_string(&cfg, "common.message_file", &str)) {
-		/* check for entry in common.conf */
+	if (config_lookup_string(&cfg, "common.message_file", &str)) 
 		conf->message_file = str;
-        } else {
-                error_msg("No 'common.message_file' setting in config file!");
-		
-		/* check for entry in tempd.conf */
-		if (config_lookup_string(&cfg, "tempd.message_file", &str)) 
-			conf->message_file = str;
-		else
-			error_exit("No 'tempd.message_file' setting in config file!");
-	}
+	else
+		error_msg("No 'common.message_file' setting in config file!");
+       	
 
-	if (config_lookup_string(&cfg, "common.kdo_msg_queue", &str)) {
-		/* check for entry in common.conf */
+	if (config_lookup_string(&cfg, "common.kdo_msg_queue", &str))
 		conf->kdo_msg_queue = str;
-        } else {
-                error_msg("No 'common.kdo_msg_queue' setting in config file!");
-		
-		/* check for entry in tempd.conf */
-		if (config_lookup_string(&cfg, "tempd.kdo_msg_queue", &str)) 
-			conf->kdo_msg_queue = str;
-		else
-			error_exit("No 'tempd.kdo_msg_queue' setting in config file!");
-	}
+        else
+		error_msg("No 'common.kdo_msg_queue' setting in config file!");
 
-	if (config_lookup_string(&cfg, "common.common_output_dir", &str)) {
-		/* check for entry in common.conf */
+	
+	if (config_lookup_string(&cfg, "common.common_output_dir", &str)) 
 		conf->common_output_dir = str;
-        } else {
-                error_msg("No 'common.common_outpur_dir' setting in config file!");
-		
-		/* check for entry in tempd.conf */
-		if (config_lookup_string(&cfg, "tempd.common_output_dir", &str)) 
-			conf->common_output_dir = str;
-		else
-			error_exit("No 'tempd.common_output_dir' setting in config file!");
-	}
-
-	/* 
-	 * tempd specific parts
-	 */
-        if (config_lookup_string(&cfg, "tempd.i2c_adapter", &str)) 
-		conf->i2c_adapter = str;
         else 
-                error_exit("No 'tempd.i2c_adapter' setting in config file!");
+                error_msg("No 'common.common_outpur_dir' setting in config file!");
 }
 
 
@@ -134,7 +104,7 @@ print_config_content(struct conf_obj *conf)
 	fprintf(stdout, "\n************************************************* \n");
 
 	/* 
-	 * common parts 
+	 * common parts -> clock_broker
 	 */
 	printf("message_file@addr: %p with content %s\n",
 	       conf->message_file, conf->message_file);
@@ -144,12 +114,6 @@ print_config_content(struct conf_obj *conf)
 	
 	printf("common_output_dir@addr: %p with content %s\n",
 	       conf->common_output_dir, conf->common_output_dir);
-
-	/* 
-	 * tempd specific parts
-	 */
-	printf("i2c_adapter@addr: %p with content %s\n",
-	       conf->i2c_adapter, conf->i2c_adapter);
 
 	fprintf(stdout, "************************************************* \n\n");
 }
@@ -237,10 +201,11 @@ int main(int argc, char *argv[])
 		error_msg("cant set old working dir");
 	close(cur_dir);
 
-	
+
 /*
  *  main parts
  */
+
 	
         config_destroy(&cfg);
         
