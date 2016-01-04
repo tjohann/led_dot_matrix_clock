@@ -3,10 +3,12 @@
 # (c) 2015, thorsten.johannvorderbrueggen@t-online.de                        
 #
 
+PREFIX ?= $(HOME)
+#PREFIX = /usr/local
 
 TARGET := libarietta
-SRC := libarietta.c daemon.c lcd.c network.c
-HEADER := libarietta.h
+SRC := $(TARGET).c daemon.c lcd.c network.c
+HEADER := $(TARGET).h
 
 #
 # get version info
@@ -25,7 +27,7 @@ VERSION_DEFINES = -DVER_MAYOR=$(VER_MAYOR) -DVER_MINOR=$(VER_MINOR) -DVER_BUGFIX
 # CLFAGS and LDLIBS
 #
 CFLAGS = -Wall -O2 -fPIC -g 
-LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -lpthread  
+LDLIBS = -shared -Wl,-soname,$(TARGET).so.$(VER_MAYOR) -pthread  
 
 
 all: $(TARGET).so.$(VERSION) $(TARGET).a
@@ -33,8 +35,6 @@ all: $(TARGET).so.$(VERSION) $(TARGET).a
 $(TARGET).so.$(VERSION): $(SRC) $(HEADER)
 	${CC} $(CFLAGS) $(VERSION_DEFINES) -c $(SRC)
 	${CC} $(CFLAGS) $(VERSION_DEFINES) $(LDLIBS) -o $(TARGET).so.$(VERSION) $(SRC)
-	ln -s $(TARGET).so.$(VERSION) $(TARGET).so.$(VER_MAYOR)
-	ln -s $(TARGET).so.$(VER_MAYOR)	$(TARGET).so.$(VER_MAYOR).$(VER_MINOR)
 
 $(TARGET).a: $(SRC) $(HEADER)
 	${AR} rcs $(TARGET).a $(SRC)
@@ -45,10 +45,11 @@ clean:
 	rm -f man/*~ 
 
 install: $(TARGET).so.$(VERSION) $(TARGET).a
-	cp -d $(TARGET).a ../../lib
-	cp -d $(TARGET).so.$(VERSION) ../../lib
-	cp -d $(TARGET).so.$(VER_MAYOR) ../../lib
-	cp -d $(TARGET).so.$(VER_MAYOR).$(VER_MINOR) ../../lib
-	cp -d $(HEADER) ../../include
+	install $(TARGET).a $(PREFIX)/lib/
+	install $(TARGET).so.$(VERSION) $(PREFIX)/lib/
+	ln -sf $(PREFIX)/lib/$(TARGET).so.$(VERSION)  $(PREFIX)/lib/$(TARGET).so.$(VER_MAYOR)
+	ln -sf $(PREFIX)/lib/$(TARGET).so.$(VER_MAYOR) $(PREFIX)/lib/$(TARGET).so.$(VER_MAYOR).$(VER_MINOR)
+	install $(HEADER) $(PREFIX)/include/
+
 
 .PHONY: clean

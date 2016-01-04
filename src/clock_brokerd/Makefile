@@ -3,11 +3,13 @@
 # (c) 2015, thorsten.johannvorderbrueggen@t-online.de                        
 #
 
+PREFIX ?= $(HOME)
+#PREFIX = /usr/local
 
 TARGET := clock_broker
-SRC := clock_broker.c 
-HEADER := clock_broker.h 
-
+SRC    := $(TARGET).c 
+HEADER := $(TARGET).h 
+CONF_F := common.conf
 
 #
 # CLFAGS and LDLIBS
@@ -28,15 +30,16 @@ clean:
 	rm -f etc/*~
 
 install: $(TARGET)
-	cp -d $(TARGET) ../../bin
+	install $(TARGET) $(PREFIX)/bin
+	install -m 644 $(CONF_F) $(PREFIX)/etc
 
 run: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./clock_broker -d ~/led_dot_matrix_clock/src/clock_broker/etc/
+	LD_LIBRARY_PATH=../../lib ./$(TARGET) -d $(PREFIX)/etc/
 
 help: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./clock_broker -h
+	LD_LIBRARY_PATH=../../lib ./$(TARGET) -h
 
 usage: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./clock_broker
+	LD_LIBRARY_PATH=../../lib ./$(TARGET)
 
 .PHONY: clean

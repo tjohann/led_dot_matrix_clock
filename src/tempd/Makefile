@@ -3,11 +3,12 @@
 # (c) 2015, thorsten.johannvorderbrueggen@t-online.de                        
 #
 
+PREFIX ?= $(HOME)
+#PREFIX = /usr/local
 
 TARGET := tempd
-SRC := tempd.c 
-HEADER := tempd.h 
-
+SRC := $(TARGET).c 
+HEADER := $(TARGET).h 
 
 #
 # CLFAGS and LDLIBS
@@ -28,15 +29,16 @@ clean:
 	rm -f etc/*~
 
 install: $(TARGET)
-	cp -d $(TARGET) ../../bin
+	install $(TARGET) $(PREFIX)/bin
+	install -m 644 $(TARGET).conf $(PREFIX)/etc
 
 run: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./tempd -d ~/led_dot_matrix_clock/src/tempd/etc/
+	LD_LIBRARY_PATH=$(PREFIX)/lib ./$(TARGET) -d $(PREFIX)/etc/
 
 help: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./tempd -h
+	LD_LIBRARY_PATH=$(PREFIX)/lib ./$(TARGET) -h
 
 usage: $(TARGET)
-	LD_LIBRARY_PATH=../../lib ./tempd
+	LD_LIBRARY_PATH=$(PREFIX)/lib ./$(TARGET)
 
 .PHONY: clean
