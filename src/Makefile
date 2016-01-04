@@ -111,7 +111,7 @@ clean:
 	rm -f $(CLOCK_BROKERD)
 	rm -f $(TEMPD)
 
-install: $(LIB).so.$(VERSION)
+install: all
 	install $(LIB).so.$(VERSION) $(PREFIX)/lib/
 	ln -sf $(PREFIX)/lib/$(LIB).so.$(VERSION)  $(PREFIX)/lib/$(LIB).so.$(VER_MAYOR)
 	ln -sf $(PREFIX)/lib/$(LIB).so.$(VER_MAYOR) $(PREFIX)/lib/$(LIB).so.$(VER_MAYOR).$(VER_MINOR)
@@ -124,11 +124,16 @@ install: $(LIB).so.$(VERSION)
 	install -m 644 $(TEMPD).conf $(PREFIX)/etc
 
 uninstall:
-	rm $(PREFIX)/bin/$(CLOCK_BROKERD)
-	rm $(PREFIX)/etc/$(COMMON_CONF)
+	rm -f $(PREFIX)/lib/$(LIB).so.$(VER_MAYOR).$(VER_MINOR)
+	rm -f $(PREFIX)/lib/$(LIB).so.$(VER_MAYOR)
+	rm -f $(PREFIX)/lib/$(LIB).so.$(VERSION)
+	rm -f $(PREFIX)/include/$(LIB_HEADER)
 
-	rm $(PREFIX)/bin/$(TEMPD)
-	rm $(PREFIX)/etc/$(TEMPD).conf
+	rm -f $(PREFIX)/bin/$(CLOCK_BROKERD)
+	rm -f $(PREFIX)/etc/$(COMMON_CONF)
+
+	rm -f $(PREFIX)/bin/$(TEMPD)
+	rm -f $(PREFIX)/etc/$(TEMPD).conf
 
 .PHONY: clean uninstall
 
