@@ -18,8 +18,8 @@
 
 */
 
-#ifndef _CLOCK_BROKER_H
-#define _CLOCK_BROKER_H
+#ifndef _CLOCK_BROKERD_H
+#define _CLOCK_BROKERD_H
 
 #include <libarietta.h>
 #include <libconfig.h>

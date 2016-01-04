@@ -41,9 +41,9 @@ LIB_SRC    := $(LIB).c daemon.c lcd.c network.c
 LIB_HEADER := $(LIB).h
 
 #
-# ------ clock_broker
+# ------ clock_brokerd
 #
-CLOCK_BROKERD        := clock_broker
+CLOCK_BROKERD        := clock_brokerd
 CLOCK_BROKERD_SRC    := $(CLOCK_BROKERD).c 
 CLOCK_BROKERD_HEADER := $(CLOCK_BROKERD).h 
 COMMON_CONF          := common.conf

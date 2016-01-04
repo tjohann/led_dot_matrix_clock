@@ -13,3 +13,20 @@ I provide a dynamic lib and also a static lib. For an easy use, include libariet
    man 3 libarietta
 
 
+What is clock_brokerd?
+-------------------
+This is the common message broker daemon.
+
+For more info pls read the manpage
+
+    man 8 clock_brokerd
+
+
+What is tempd?
+-------------------
+This is the main temperature daemon which distributes a environment temp. The value is based on a lm75 temp sensor.
+
+For more info pls read the manpage
+
+    man 8 tempd
+

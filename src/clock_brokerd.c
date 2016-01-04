@@ -18,16 +18,16 @@
 
 */
 
-#include "clock_broker.h"
+#include "clock_brokerd.h"
 
 
 static void
 usage(void)
 {
 	fprintf(stdout,
-		"\nusage: ./clock_broker -d /etc/led_dot_matrix_clock/ \n");
+		"\nusage: ./clock_brokerd -d /etc/led_dot_matrix_clock/ \n");
 	fprintf(stdout,
-		"                      -d -> config directory          \n");
+		"                       -d -> config directory          \n");
 }
 
 

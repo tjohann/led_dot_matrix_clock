@@ -2,7 +2,7 @@
 # makefile
 #
 
-MODULES = Documentation src bin
+MODULES = Documentation src driver bin
 
 all:
 	@echo "+-------------------------------------------+"

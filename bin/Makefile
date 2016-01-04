@@ -2,13 +2,10 @@
 # for cleaning
 #
 
-all:: 
+all: 
 	@echo Cheers
 
-clean::
+clean:
 	rm -f *~ .*~
-	rm -f tempd
-	rm -f clock_broker
 
-distclean: clean
-
+.PHONY: all clean 
