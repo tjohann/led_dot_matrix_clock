@@ -2,11 +2,7 @@
 # makefile
 #
 
-ifeq "${ARMEL_HOME}" ""
-    $(error error: please source armel_env first!)
-endif
-
-MODULES = Documentation src include lib etc bin
+MODULES = Documentation src bin
 
 all:
 	@echo "+-------------------------------------------+"
@@ -17,11 +13,14 @@ all:
 install:
 	(cd src && $(MAKE) $@)
 
+uninstall:
+	(cd src && $(MAKE) $@)
+
 clean:
 	rm -f *~ .*~
 	for dir in $(MODULES); do (cd $$dir && $(MAKE) $@); done
 
 .PHONY:
-	all install clean
+	all install uninstall clean
 
 
