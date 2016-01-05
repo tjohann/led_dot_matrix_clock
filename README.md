@@ -8,8 +8,13 @@ This is my LED-Dot-matrix based clock. The purpose of this repo is to collect al
      ...
 
 
+Preparation
+-------------------
+...
 
-Preparation (toolchain)
+
+
+Preparation (cross-toolchain)
 -------------------
 
 To crossbuild the software on your linux host you need a toolchain. I already provide one for armel/arm926 devices. To get it, you have to clone the sdk repo into your home directory and follow the instructions.
