@@ -7,7 +7,7 @@ MODULES = Documentation src driver bin
 all:
 	@echo "+-------------------------------------------+"
 	@echo "|         Build all components              |"
-	@echo "+-------------------------------------------+"	
+	@echo "+-------------------------------------------+"
 	(cd src && $(MAKE) $@)
 
 install:

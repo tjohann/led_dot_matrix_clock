@@ -1,6 +1,6 @@
 #
 # BSD 3-Clause
-# (c) 2015, thorsten.johannvorderbrueggen@t-online.de                        
+# (c) 2015, thorsten.johannvorderbrueggen@t-online.de
 #
 
 PREFIX ?= $(HOME)
@@ -23,14 +23,14 @@ VERSION_DEFINES = -DVER_MAYOR=$(VER_MAYOR) -DVER_MINOR=$(VER_MINOR) -DVER_BUGFIX
 #
 # CLFAGS and LDLIBS for libarietta
 #
-LIB_CFLAGS = -Wall -O2 -fPIC -g 
-LIB_LDLIBS = -shared -Wl,-soname,$(LIB).so.$(VER_MAYOR) -pthread  
+LIB_CFLAGS = -Wall -O2 -fPIC -g
+LIB_LDLIBS = -shared -Wl,-soname,$(LIB).so.$(VER_MAYOR) -pthread
 
 #
 # CLFAGS and LDLIBS for all progs
 #
 CFLAGS := `pkg-config --cflags libconfig` -Wall -O2 -g -DDEBUG  -I.
-LDLIBS := `pkg-config --libs libconfig` -L. -l:libarietta.so.$(VERSION) -lpthread 
+LDLIBS := `pkg-config --libs libconfig` -L. -l:libarietta.so.$(VERSION) -lpthread
 
 
 #
@@ -44,16 +44,16 @@ LIB_HEADER := $(LIB).h
 # ------ clock_brokerd
 #
 CLOCK_BROKERD        := clock_brokerd
-CLOCK_BROKERD_SRC    := $(CLOCK_BROKERD).c 
-CLOCK_BROKERD_HEADER := $(CLOCK_BROKERD).h 
+CLOCK_BROKERD_SRC    := $(CLOCK_BROKERD).c
+CLOCK_BROKERD_HEADER := $(CLOCK_BROKERD).h
 COMMON_CONF          := common.conf
 
 #
 # ------ tempd
 #
 TEMPD        := tempd
-TEMPD_SRC    := $(TEMPD).c 
-TEMPD_HEADER := $(TEMPD).h 
+TEMPD_SRC    := $(TEMPD).c
+TEMPD_HEADER := $(TEMPD).h
 
 
 # ------ ...
@@ -64,7 +64,7 @@ all: $(LIB).so.$(VERSION) $(CLOCK_BROKERD) $(TEMPD)
 $(LIB).so.$(VERSION): $(LIB_SRC) $(LIB_HEADER)
 	@echo "+-------------------------------------------+"
 	@echo "|         Build $(LIB).so.$(VERSION)         |"
-	@echo "+-------------------------------------------+"	
+	@echo "+-------------------------------------------+"
 	${CC} $(LIB_CFLAGS) $(VERSION_DEFINES) -c $(LIB_SRC)
 	${CC} $(LIB_CFLAGS) $(VERSION_DEFINES) $(LIB_LDLIBS) -o $(LIB).so.$(VERSION) $(LIB_SRC)
 
@@ -73,8 +73,8 @@ $(LIB).so.$(VERSION): $(LIB_SRC) $(LIB_HEADER)
 $(CLOCK_BROKERD): $(CLOCK_BROKERD_SRC) $(CLOCK_BROKERD_HEADER)
 	@echo "+-------------------------------------------+"
 	@echo "|         Build $(CLOCK_BROKERD)                |"
-	@echo "+-------------------------------------------+"	
-	${CC} $(CFLAGS) -o $(CLOCK_BROKERD) $(CLOCK_BROKERD_SRC) $(LDLIBS) 
+	@echo "+-------------------------------------------+"
+	${CC} $(CFLAGS) -o $(CLOCK_BROKERD) $(CLOCK_BROKERD_SRC) $(LDLIBS)
 
 $(CLOCK_BROKERD)_run: $($(CLOCK_BROKERD))
 	LD_LIBRARY_PATH=$(PREFIX)/lib $(PREFIX)/bin/$(CLOCK_BROKERD) -d $(PREFIX)/etc/
@@ -90,8 +90,8 @@ $(CLOCK_BROKERD)_usage: $($(CLOCK_BROKERD))
 $(TEMPD): $(TEMPD_SRC) $(TEMPD_HEADER)
 	@echo "+-------------------------------------------+"
 	@echo "|         Build $(TEMPD)                       |"
-	@echo "+-------------------------------------------+"	
-	${CC} $(CFLAGS) -o $(TEMPD) $(TEMPD_SRC) $(LDLIBS) 
+	@echo "+-------------------------------------------+"
+	${CC} $(CFLAGS) -o $(TEMPD) $(TEMPD_SRC) $(LDLIBS)
 
 $(TEMPD)_run: $($(TEMPD))
 	LD_LIBRARY_PATH=$(PREFIX)/lib $(PREFIX)/bin/$(TEMPD) -d $(PREFIX)/etc/
@@ -106,7 +106,7 @@ $(TEMPD)_usage: $($(TEMPD))
 # ------ common parts
 clean:
 	rm -f *~ .*~ *.o *.i *.s *.so *.so.* *.a
-	rm -f man/*~ 
+	rm -f man/*~
 	rm -f $(LIB).so.*
 	rm -f $(CLOCK_BROKERD)
 	rm -f $(TEMPD)

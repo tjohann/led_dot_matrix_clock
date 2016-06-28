@@ -1,7 +1,7 @@
 LED-Dot-matrix based clock
 ===============
 
-This is my LED-Dot-matrix based clock. The purpose of this repo is to collect all software components into one place. The project has a lot different programs and daemons. 
+This is my LED-Dot-matrix based clock. The purpose of this repo is to collect all software components into one place. The project has a lot different programs and daemons.
 
      tempd -> a temperature daemon
      matrixd -> a daemon to controll the led-dot-matrix
@@ -28,11 +28,11 @@ After cloning, "source" the env file to set the necessary environment variables.
 
         # setup the arm926 environment
         if [ -f ~/arm926_sdk/armel_env ]; then
-            . ~/arm926_sdk/armel_env 
+            . ~/arm926_sdk/armel_env
         fi
 
 
-.. or do it manually everytime you want to work with the sdk. 
+.. or do it manually everytime you want to work with the sdk.
 
         . ./armel_env
 
